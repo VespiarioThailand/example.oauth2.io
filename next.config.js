@@ -7,7 +7,7 @@ const nextConfig = {
   reactStrictMode: true,
 
  // Add basePath
-  basePath: '/github-pages',
+  basePath: '/example.vespistiid',
 }
  
 module.exports = nextConfig
