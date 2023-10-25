@@ -1,12 +1,16 @@
  export default function Page() {
   
   const signInWithVespisti = async () => {
-    const clientID = "123123123"
-    const clientSecret = "xxxxx"
-    const redirectURI = "https://vespiariothailand.github.io/example.vespistiid/profile"
+    // const clientID = "680967522138622488"
+    // const clientSecret = "ed9783c3781b1fdad7df"
+    // const redirectURI = "https://vespiariothailand.github.io/example.vespistiid/profile"
+
+    const clientID = "28160065853605221092"
+    const clientSecret = "13e980a693b0e3888f2f"
+    const redirectURI = "http://localhost:3001/profile"
 
     // redirect to vespisti login page
-    window.location.href = `https://xxxxxxx?client_id=${clientID}&client_secret=${clientSecret}&redirect_uri=${encodeURIComponent(redirectURI)}`
+    window.location.href = `http://localhost:3000/sign-in?client_id=${clientID}&client_secret=${clientSecret}&redirect_uri=${encodeURIComponent(redirectURI)}`
   }
 
   return (
