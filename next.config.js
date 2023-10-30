@@ -3,11 +3,11 @@
  */
 const nextConfig = {
   output: 'export',
- 
+
   reactStrictMode: true,
 
- // Add basePath
-  basePath: '/example.vespistiid',
+  // Add basePath
+  basePath: '/example.vespistiid', // github pages
 }
- 
+
 module.exports = nextConfig

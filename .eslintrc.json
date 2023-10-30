@@ -1,3 +1,41 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "prettier",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["react", "@typescript-eslint", "unused-imports", "react-hooks", "prettier"],
+  "ignorePatterns": ["./*.d.ts", "./node_modules", "./.next", "./.eslintrc.json"],
+  "rules": {
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": "error",
+    "unused-imports/no-unused-imports-ts": "error",
+    "unused-imports/no-unused-imports": "error",
+    "spaced-comment": "error",
+    "no-duplicate-imports": "error",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "react-hooks/exhaustive-deps": "warn"
+  }
 }
