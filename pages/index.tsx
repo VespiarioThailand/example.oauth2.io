@@ -53,9 +53,9 @@ export default function Page() {
 
   return (
     <div className="container mx-auto px-4">
-      <div className="flex h-screen">
-        <div className="flex-1 flex justify-center items-center">
-          <form>
+      <div className="flex h-screen ">
+        <div className="flex-1 flex justify-center items-center ">
+          <form className="bg-slate-100 mt-8 p-8 dark:bg-slate-800">
             <div className="grid gap-6 mb-6 grid-cols-2">
               <div className="">
                 <label htmlFor="client_id">client_id</label>
