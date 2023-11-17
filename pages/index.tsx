@@ -9,7 +9,7 @@ export default function Page() {
     // redirect to vespisti login page
     window.location.href = `${
       formData.oauth2_signin
-    }/sign-in?client_id=${clientID}&client_secret=${clientSecret}&redirect_uri=${encodeURIComponent(redirectURI ?? '')}`
+    }?client_id=${clientID}&client_secret=${clientSecret}&redirect_uri=${encodeURIComponent(redirectURI ?? '')}`
   }
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [formData, setFormData] = useState({
@@ -71,7 +71,7 @@ export default function Page() {
                 />
               </div>
               <div>
-                <label htmlFor="client_secret">client_id</label>
+                <label htmlFor="client_secret">client_secret</label>
                 <input
                   onChange={(e) => setFormData({ ...formData, client_secret: e.target.value })}
                   value={formData.client_secret}
