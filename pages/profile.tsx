@@ -2,6 +2,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import axiosAPI from '@/utils/axios'
+import { getLocalStorage } from '@/utils'
 
 const Profile = () => {
   const searchParams = useSearchParams()
@@ -15,10 +16,10 @@ const Profile = () => {
   })
   useEffect(() => {
     if (!window) return
-    const baseURL = localStorage.getItem('oauth2_api') ?? process.env.NEXT_PUBLIC_API_URL
-    const clientID = localStorage.getItem('client_id') ?? process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID
-    const clientSecret = localStorage.getItem('client_secret') ?? process.env.NEXT_PUBLIC_OAUTH_CLIENT_SECRET
-    const redirectURI = localStorage.getItem('redirect_uri') ?? process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI
+    const baseURL = getLocalStorage('oauth2_api_2', 'API_URL')
+    const clientID = getLocalStorage('client_id_2', 'OAUTH_CLIENT_ID')
+    const clientSecret = getLocalStorage('client_secret_2', 'OAUTH_CLIENT_SECRET')
+    const redirectURI = getLocalStorage('redirect_uri_2', 'OAUTH_REDIRECT_URI')
     axiosAPI.defaults.baseURL = baseURL
 
     console.log('useEffect', code)
@@ -53,13 +54,15 @@ const Profile = () => {
       access_token: accessToken,
       refresh_token: refreshToken,
     })
-    axiosAPI.get<{ data: ProfileType }>(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/customer/profile`).then((res) => {
-      if (res.status !== 200) {
-        console.log(res)
-        return
-      }
-      setProfile(res.data.data)
-    })
+    axiosAPI
+      .get<{ data: ProfileType }>(`${getLocalStorage('oauth2_api_2', 'API_URL')}/api/v1/customer/profile`)
+      .then((res) => {
+        if (res.status !== 200) {
+          console.log(res)
+          return
+        }
+        setProfile(res.data.data)
+      })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Cookies.get('access_token')])
 

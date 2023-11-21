@@ -1,9 +1,10 @@
 import axios, { AxiosInstance } from 'axios'
 import mem from 'mem'
 import Cookies from 'js-cookie'
+import { getLocalStorage } from '.'
 
 const axiosAPI: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: getLocalStorage('oauth2_api_2', 'API_URL'),
   timeout: 10000,
 })
 
@@ -11,8 +12,8 @@ const refreshToken = async (refresh_token: string) => {
   const res = await axios.post<RefreshTokenType>(`${axiosAPI.defaults.baseURL}/api/v1/oauth2/token`, {
     grant_type: 'refresh_token',
     refresh_token: refresh_token,
-    client_id: process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID,
-    client_secret: process.env.NEXT_PUBLIC_OAUTH_CLIENT_SECRET,
+    client_id: getLocalStorage('client_id_2', 'OAUTH_CLIENT_ID'),
+    client_secret: getLocalStorage('client_secret_2', 'OAUTH_CLIENT_SECRET'),
   })
   if (res.status !== 200) {
     throw new Error('Refresh token failed')

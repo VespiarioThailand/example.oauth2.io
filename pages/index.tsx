@@ -1,3 +1,5 @@
+import { getLocalStorage } from '@/utils'
+import getConfig from 'next/config'
 import { useEffect, useState } from 'react'
 
 export default function Page() {
@@ -18,36 +20,50 @@ export default function Page() {
     redirect_uri: '',
     oauth2_signin: '',
     oauth2_api: '',
+    app_env: '',
   })
 
   useEffect(() => {
     if (!window) return
     setFormData({
-      client_id: localStorage.getItem('client_id') ?? process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID ?? '',
-      client_secret: localStorage.getItem('client_secret') ?? process.env.NEXT_PUBLIC_OAUTH_CLIENT_SECRET ?? '',
-      redirect_uri: localStorage.getItem('redirect_uri') ?? process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI ?? '',
-      oauth2_signin: localStorage.getItem('oauth2_signin') ?? process.env.NEXT_PUBLIC_OAUTH_URL ?? '',
-      oauth2_api: localStorage.getItem('oauth2_api') ?? process.env.NEXT_PUBLIC_API_URL ?? '',
+      client_id: getLocalStorage('client_id_2', 'OAUTH_CLIENT_ID'),
+      client_secret: getLocalStorage('client_secret_2', 'OAUTH_CLIENT_SECRET'),
+      redirect_uri: getLocalStorage('redirect_uri_2', 'OAUTH_REDIRECT_URI'),
+      oauth2_signin: getLocalStorage('oauth2_signin_2', 'OAUTH_URL'),
+      oauth2_api: getLocalStorage('oauth2_api_2', 'API_URL'),
+      app_env: localStorage.getItem('app_en_2') ?? getConfig().publicRuntimeConfig.ENV,
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setFormData])
 
   const handleSave = () => {
-    localStorage.setItem('client_id', formData.client_id)
-    localStorage.setItem('client_secret', formData.client_secret)
-    localStorage.setItem('redirect_uri', formData.redirect_uri)
-    localStorage.setItem('oauth2_signin', formData.oauth2_signin)
-    localStorage.setItem('oauth2_api', formData.oauth2_api)
+    localStorage.setItem('client_id_2', formData.client_id)
+    localStorage.setItem('client_secret_2', formData.client_secret)
+    localStorage.setItem('redirect_uri_2', formData.redirect_uri)
+    localStorage.setItem('oauth2_signin_2', formData.oauth2_signin)
+    localStorage.setItem('oauth2_api_2', formData.oauth2_api)
+    localStorage.setItem('app_en_2', formData.app_env)
     setIsEdit(false)
   }
 
-  const handleReset = () => {
+  const handleResetDEV = () => {
     setFormData({
-      client_id: process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID ?? '',
-      client_secret: process.env.NEXT_PUBLIC_OAUTH_CLIENT_SECRET ?? '',
-      redirect_uri: process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI ?? '',
-      oauth2_signin: process.env.NEXT_PUBLIC_OAUTH_URL ?? '',
-      oauth2_api: process.env.NEXT_PUBLIC_API_URL ?? '',
+      client_id: getConfig().publicRuntimeConfig.OAUTH_CLIENT_ID_DEV ?? '',
+      client_secret: getConfig().publicRuntimeConfig.OAUTH_CLIENT_SECRET_DEV ?? '',
+      redirect_uri: getConfig().publicRuntimeConfig.OAUTH_REDIRECT_URI_DEV ?? '',
+      oauth2_signin: getConfig().publicRuntimeConfig.OAUTH_URL_DEV ?? '',
+      oauth2_api: getConfig().publicRuntimeConfig.API_URL_DEV ?? '',
+      app_env: 'DEV',
+    })
+  }
+  const handleResetUAT = () => {
+    setFormData({
+      client_id: getConfig().publicRuntimeConfig.OAUTH_CLIENT_ID_UAT ?? '',
+      client_secret: getConfig().publicRuntimeConfig.OAUTH_CLIENT_SECRET_UAT ?? '',
+      redirect_uri: getConfig().publicRuntimeConfig.OAUTH_REDIRECT_URI_UAT ?? '',
+      oauth2_signin: getConfig().publicRuntimeConfig.OAUTH_URL_UAT ?? '',
+      oauth2_api: getConfig().publicRuntimeConfig.API_URL_UAT ?? '',
+      app_env: 'UAT',
     })
   }
 
@@ -56,6 +72,10 @@ export default function Page() {
       <div className="flex h-screen ">
         <div className="flex-1 flex justify-center items-center ">
           <form className="bg-slate-100 mt-8 p-8 dark:bg-slate-800">
+            <div className="grid gap-6 mb-6 grid-cols-2">
+              <p>APP: {formData.app_env}</p>
+            </div>
+
             <div className="grid gap-6 mb-6 grid-cols-2">
               <div className="">
                 <label htmlFor="client_id">client_id</label>
@@ -136,10 +156,19 @@ export default function Page() {
             {isEdit && (
               <button
                 type="button"
-                onClick={handleReset}
+                onClick={handleResetDEV}
                 className="ml-4 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
               >
-                reset default
+                reset to DEV
+              </button>
+            )}
+            {isEdit && (
+              <button
+                type="button"
+                onClick={handleResetUAT}
+                className="ml-4 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+              >
+                reset to UAT
               </button>
             )}
           </form>
