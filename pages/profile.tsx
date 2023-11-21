@@ -46,23 +46,23 @@ const Profile = () => {
   }, [code])
 
   useEffect(() => {
+    if (!window) return
     const accessToken = Cookies.get('access_token') ?? ''
     const refreshToken = Cookies.get('refresh_token') ?? ''
+    axiosAPI.defaults.baseURL = getLocalStorage('oauth2_api_2', 'API_URL')
 
     if (!accessToken && !refreshToken) return
     setToken({
       access_token: accessToken,
       refresh_token: refreshToken,
     })
-    axiosAPI
-      .get<{ data: ProfileType }>(`${getLocalStorage('oauth2_api_2', 'API_URL')}/api/v1/customer/profile`)
-      .then((res) => {
-        if (res.status !== 200) {
-          console.log(res)
-          return
-        }
-        setProfile(res.data.data)
-      })
+    axiosAPI.get<{ data: ProfileType }>(`/api/v1/customer/profile`).then((res) => {
+      if (res.status !== 200) {
+        console.log(res)
+        return
+      }
+      setProfile(res.data.data)
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Cookies.get('access_token')])
 

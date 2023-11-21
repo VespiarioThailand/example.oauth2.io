@@ -31,7 +31,7 @@ export default function Page() {
       redirect_uri: getLocalStorage('redirect_uri_2', 'OAUTH_REDIRECT_URI'),
       oauth2_signin: getLocalStorage('oauth2_signin_2', 'OAUTH_URL'),
       oauth2_api: getLocalStorage('oauth2_api_2', 'API_URL'),
-      app_env: localStorage.getItem('app_en_2') ?? getConfig().publicRuntimeConfig.ENV,
+      app_env: localStorage?.getItem('app_en_2') ?? getConfig().publicRuntimeConfig.ENV,
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setFormData])

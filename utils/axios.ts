@@ -4,7 +4,8 @@ import Cookies from 'js-cookie'
 import { getLocalStorage } from '.'
 
 const axiosAPI: AxiosInstance = axios.create({
-  baseURL: getLocalStorage('oauth2_api_2', 'API_URL'),
+  // baseURL: getLocalStorage('oauth2_api_2', 'API_URL'),
+  // baseURL: getConfig().publicRuntimeConfig['API_URL_UAT'],
   timeout: 10000,
 })
 
